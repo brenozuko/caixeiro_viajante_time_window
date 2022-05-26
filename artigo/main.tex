@@ -20,7 +20,7 @@
 
 \usepackage[brazil]{babel}   
 \usepackage[utf8]{inputenc}  
-
+\usepackage{amsmath}
 
 %Inclui () nas citações
 \usepackage{cite}
@@ -57,13 +57,31 @@
 
 
 \section{Introdução}
+Os problemas de roteirização e otimização de tempo são grandes conhecidos do cotidiano, não é incomum que uma rota tenha diversas possibilidades de percurso. Este tipo de problema é explorado há séculos, sendo um dos seus exemplos mais famosos o Problema do Caixeiro Viajante (PCV), problema este trabalhado desde o século XIX por diversos matemáticos. Com o advento da Pesquisa Operacional (PO), este tipo de situação começou a tomar novas proporções através da utilização de modelos matemáticos e programação de computadores para obter soluções eficientes para diversas variações do PCV.
 
-A Pesquisa Operacional (PO) é um método analítico
+A PO é a área do conhecimento dedicada a estudar e aplicar métodos analíticos para a resolução de problemas nas mais diversas áreas de atuação humana \cite{sobrapo2017}. A partir dela somos capazes de encontrar soluções ótimas com limitações de recursos e restrições, modelando matematicamente a realidade para obter resultados factíveis para a resolução de diversas situações \cite{hillier2013introdução}.
+
+Neste trabalho exploramos Problema do Caixeiro Viajante com tempo limite de chegada utilizando uma abordagem desenvolvida em aula que será descrita em detalhes na próxima sessão.
+
 
 
 \section{Descrição do problema}
 
+
+
 \section{Modelagem Matemática}
+
+\begin{align}
+  \min       & \sum_{_j\in N\backslash \{0,n+1\}} w_j                             & \label{teste}                                                          \\
+  \hbox{s.a} & \sum_{j\in N\backslash \{0\}} x_{ij} = 1                           &               & i\in N\backslash \{n+1\}                               \\
+             & \sum_{i\in N\backslash \{n+1\}} x_{ij} = 1                         &               & j\in N\backslash \{0\}                                 \\
+             & \varphi_j \geq \varphi_i + (S_i + t_{ij})x_{ij} - M_{ij}(1-x_{ij}) &               & i\in N\backslash \{n+1\}   &  & j\in N\backslash \{0\} \\
+             & w_j \geq \varphi_j - D_j                                           &               & j\in N\backslash \{0,n+1\}                             \\
+             & w_j \geq 0                                                         &               & j\in N\backslash \{0,n+1\}                             \\
+             & x_{ij} \in \{0,1\}                                                 &               & i\in N\backslash \{n+1\}   &  & j\in N\backslash \{0\}
+\end{align}
+
+Alguma coisa \eqref{teste}
 
 \section{Resultados Computacionais}
 %valor ótimo
