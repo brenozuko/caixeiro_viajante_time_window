@@ -22,6 +22,7 @@
 \usepackage[utf8]{inputenc}  
 \usepackage{amsmath}
 \usepackage[shortlabels]{enumitem}
+\usepackage{cleveref}
 
 
 %Inclui () nas citações
@@ -49,7 +50,6 @@
 \begin{document}
 
 \maketitle
-
 \begin{abstract}
   The traveling salesman problem is a classic of mathematical literature, where a salesperson must visit a set of N cities once and return to his point of origin, through a route that minimizes the traveled distance. This work proposes a solution with a mathematical programming model, for a variant of the original problem that has time limits for arrival at each city, in which delays are allowed and the objective is to minimize the overall delay of the route. Using the PyMathProg library we achieved interesting results, offering plausible routes to the points offered.\end{abstract}
 
@@ -59,11 +59,11 @@
 
 
 \section{Introdução}
-Os problemas de roteirização e otimização de tempo são grandes conhecidos do cotidiano, não é incomum que uma rota tenha diversas possibilidades de percurso. Este tipo de problema é explorado há séculos, sendo um dos seus exemplos mais famosos o Problema do Caixeiro Viajante (PCV), problema este trabalhado desde o século XIX por diversos matemáticos. Com o advento da Pesquisa Operacional (PO), este tipo de situação começou a tomar novas proporções através da utilização de modelos matemáticos e programação de computadores para obter soluções eficientes para diversas variações do PCV.
-
-A PO é a área do conhecimento dedicada a estudar e aplicar métodos analíticos para a resolução de problemas nas mais diversas áreas de atuação humana \cite{sobrapo2017}. A partir dela somos capazes de encontrar soluções ótimas com limitações de recursos e restrições, modelando matematicamente a realidade para obter resultados factíveis para a resolução de diversas situações \cite{hillier2013introdução}.
-
-Neste trabalho exploramos Problema do Caixeiro Viajante com tempo limite de chegada utilizando uma abordagem desenvolvida em aula que será descrita em detalhes na próxima sessão.
+    Os problemas de roteirização e otimização de tempo são grandes conhecidos do cotidiano, não é incomum que uma rota tenha diversas possibilidades de percurso. Este tipo de problema é explorado há séculos, sendo um dos seus exemplos mais famosos o Problema do Caixeiro Viajante (PCV), problema este trabalhado desde o século XIX por diversos matemáticos. Com o advento da Pesquisa Operacional (PO), este tipo de situação começou a tomar novas proporções através da utilização de modelos matemáticos e programação de computadores para obter soluções eficientes para diversas variações do PCV.
+    
+    A PO é a área do conhecimento dedicada a estudar e aplicar métodos analíticos para a resolução de problemas nas mais diversas áreas de atuação humana \cite{sobrapo2017}. A partir dela somos capazes de encontrar soluções ótimas com limitações de recursos e restrições, modelando matematicamente a realidade para obter resultados factíveis para a resolução de diversas situações \cite{hillier2013introdução}.
+    
+    Neste trabalho exploramos Problema do Caixeiro Viajante com tempo limite de chegada utilizando uma abordagem desenvolvida em aula que será descrita em detalhes na próxima sessão.
 
 
 
@@ -83,23 +83,93 @@ Tendo em vista essas informações, existem também variações desta proposiç�
 
 O modelo deverá minimizar o atraso total das visitas, eliminando sub-rotas e garantindo que as restrições sejam devidamente atendidas.  
 
+    
+    
 
 
 \section{Modelagem Matemática}
 
-\begin{align}
-  \min       & \sum_{_j\in N\backslash \{0,n+1\}} w_j                             & \label{teste}                                                          \\
-  \hbox{s.a} & \sum_{j\in N\backslash \{0\}} x_{ij} = 1                           &               & i\in N\backslash \{n+1\}                               \\
-             & \sum_{i\in N\backslash \{n+1\}} x_{ij} = 1                         &               & j\in N\backslash \{0\}                                 \\
-             & \varphi_j \geq \varphi_i + (S_i + t_{ij})x_{ij} - M_{ij}(1-x_{ij}) &               & i\in N\backslash \{n+1\}   &  & j\in N\backslash \{0\} \\
-             & w_j \geq \varphi_j - D_j                                           &               & j\in N\backslash \{0,n+1\}                             \\
-             & w_j \geq 0                                                         &               & j\in N\backslash \{0,n+1\}                             \\
-             & x_{ij} \in \{0,1\}                                                 &               & i\in N\backslash \{n+1\}   &  & j\in N\backslash \{0\}
-\end{align}
-
-Alguma coisa \eqref{teste}
+    De acordo com a configuração do problema tratado neste trabalho na sessão acima, o objetivo do modelo é a minimização do tempo de atraso da rota. 
+    
+    A partir disso primeiramente foi definido um conjunto de valores N para todos os nós $n$, sendo que o primeiro e o ultimo valor são vistos como depósito.
+    
+    \begin{align}
+        \mathbb{N} = \{0, ..., n+1\}
+    \end{align}
+    
+    A função objetiva abaixo mostra minimização do somatório no conjunto N dos tempo de atraso, representado pela variável $w_j$
+    \begin{align}
+        min        \sum_{_j\in N\backslash \{0,n+1\}} w_j \label{eq1}
+    \end{align}
+    
+    A função abaixo mostra o somatório entre todos os nós $x_{ij}$ com excessão do primeiro nó (considerado como depósito), que tem a função de garantir que cada nó receba apenas uma chegada por vez.
+    \begin{align}
+      & \sum_{i\in N\backslash \{n+1\}} x_{ij} = 1                         &    & j\in N\backslash \{0\}
+    \end{align}
+    
+    A função abaixo garante que cada nó receba um ponto de saída com excessão do último nó (considerado como depósito).
+    \begin{align}
+      & \sum_{j\in N\backslash \{0\}} x_{ij} = 1                           &               & i\in N\backslash \{n+1\}  
+    \end{align}
+    
+    A restrição abaixo garante que não ocorram subrotas. Caso o nó anterior seja utilizado $x_{ij}$ valerá 1, então $\varphi_j$ que representa o tempo de serviço de um nó deverá ser maior que $\varphi_i$ mais a soma do tempo de serviço $S_i$ e a distância euclidiana $t_{ij}$.
+    \begin{align}
+      & \varphi_j \geq \varphi_i + (S_i + t_{ij})x_{ij} - M_{ij}(1-x_{ij}) & \label{eq3}    & i\in N\backslash \{n+1\}   &  & j\in N\backslash \{0\} 
+    \end{align}
+    
+    A restrição abaixo garante que $w_j$ seja maior que o tempo gasto para a chegada de um nó mais o seu tempo de serviço menos o seu tempo máximo de chegada. Nesta restrição não estão inclusos os nós $0$ e $n+1$ já que estes são considerados depositos.
+    \begin{align}
+      & w_j \geq \varphi_j - D_j                                           & \label{eq4}    & j\in N\backslash \{0,n+1\}    
+    \end{align}
+    
+      A restrição abaixo garante e não-negatividade de $w_j$
+    \begin{align}
+      & w_j \geq 0                                                         & \label{eq5}    & j\in N\backslash \{0,n+1\}        
+    \end{align}
+    
+    A restrição abaixo declara o domínio de valores possíveis para a variável $x_{ij}$
+    \begin{align}
+      & x_{ij} \in \{0,1\}                                                 & \label{eq6}    & i\in N\backslash \{n+1\}   &  & j\in N\backslash \{0\}       
+    \end{align}
+    
+    \begin{align}
+      \min       & \sum_{_j\in N\backslash \{0,n+1\}} w_j                             &                                                           \\
+      \hbox{s.a} & \sum_{j\in N\backslash \{0\}} x_{ij} = 1                           &               & i\in N\backslash \{n+1\}                               \\
+                 & \sum_{i\in N\backslash \{n+1\}} x_{ij} = 1                         &    & j\in N\backslash \{0\}                                 \\
+                 & \varphi_j \geq \varphi_i + (S_i + t_{ij})x_{ij} - M_{ij}(1-x_{ij}) & \label{eq3}    & i\in N\backslash \{n+1\}   &  & j\in N\backslash \{0\} \\
+                 & w_j \geq \varphi_j - D_j                                           & \label{eq4}    & j\in N\backslash \{0,n+1\}                             \\
+                 & w_j \geq 0                                                         & \label{eq5}    & j\in N\backslash \{0,n+1\}                             \\
+                 & x_{ij} \in \{0,1\}                                                 & \label{eq6}    & i\in N\backslash \{n+1\}   &  & j\in N\backslash \{0\}
+    \end{align}
+    
+    
+    Variáveis:
+    
+    $w_j$ Tempo de atraso para cada rota $j$.
+    
+    $x_{ij}$ Variáve "liga e desliga" para verificar se um nó (cidade) foi utilizado ou não na rota.
+    
+    $N$ Conjunto de nós a ser visitado.
+    
+    $\varphi$ Acumulo de tempo de serviço para nó.
+    
+    $D_j$ Tempo máximo de chegada para um nó $j$.
+    
+    $t_{ij}$ Distância euclidiana de um nó.
+    
+    $S_i$ Tempo de serviço em um nó.
+    
+    $M_{ij}$ Valor suficientemente grande composto pela soma de todos os deadlines mais 10.
+    
+    A função objetiva presente na linha \eqref{eq1} se trata da minimização do somatório dos tempos de atraso ocorrentes na rota.
 
 \section{Resultados Computacionais}
+    O modelo \eqref{eq1}-\eqref{eq6} foi codificado na linguagem de programação Python em conjunto com a biblioteca PyMathProg, que possibilita a elaboração e solução de problemas de programação matemática, e com a biblioteca MatplotLib que permite a criação de visualizações estáticas, animadas e interativas.
+    A biblioteca PyMathProg faz uso do solver GLPK (GNU Linear Programming Kit) que tem a função de resolver problemas de programação linear em larga escala (LP), programação inteira mista (MIP) e outros problemas relacionados. (https://www.gnu.org/software/glpk/).
+    
+    
+    
+
 %valor ótimo
 %tempo de processamento
 %gap
