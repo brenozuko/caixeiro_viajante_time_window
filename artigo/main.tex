@@ -21,6 +21,8 @@
 \usepackage[brazil]{babel}   
 \usepackage[utf8]{inputenc}  
 \usepackage{amsmath}
+\usepackage[shortlabels]{enumitem}
+
 
 %Inclui () nas citações
 \usepackage{cite}
@@ -67,8 +69,19 @@ Neste trabalho exploramos Problema do Caixeiro Viajante com tempo limite de cheg
 
 \section{Descrição do problema}
 
-O problema do caixeiro viajante é um clássico da otimização combinatória, 
-Dado o enunciado temos: um veículo que deve partir do ponto inicial, visitará \it{n} localidades e retornará ao ponto de partida após as visitas.
+O problema do caixeiro viajante é um clássico da otimização combinatória, que propõe que um determinado caixeiro deverá visitar {\it n} cidades diferentes, iniciando e encerrando sua viagem na primeira cidade. A ordem das cidades visitadas é irrelevante e de cada uma delas pode-se ir diretamente a qualquer outra \cite{porto-da-silveira_2000}. Trata-se de um problema de complexidade $R(n) = (n -1)!$ e pertence a classe dos NP-completos. Até o presente momento este é um problema aberto da matemática, sem resolução polinomial descoberta.
+
+Tendo em vista essas informações, existem também variações desta proposição e a partir de uma desssas desenvolvemos o seguinte trabalho. Dado o enunciado temos:
+
+
+\begin{enumerate}[(a)]
+  \item Um veículo que deve partir do ponto inicial, visitará {\it n} localidades e retornará ao ponto de partida após as visitas.
+  \item Cada localidade a ser visitada tem um prazo limite para receber a visita.
+  \item Atrasos são permitidos, porém uma multa que aumenta com o tempo de atraso é imposta.
+  \item A distância euclidiana (em linha reta) entre as localidades é contabilizada como tempo de percurso.
+\end{enumerate}
+
+O modelo deverá minimizar o atraso total das visitas, eliminando sub-rotas e garantindo que as restrições sejam devidamente atendidas.  
 
 
 
