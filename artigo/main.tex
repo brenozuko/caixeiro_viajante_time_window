@@ -21,6 +21,7 @@
 \usepackage[brazil]{babel}   
 \usepackage[utf8]{inputenc}  
 \usepackage{amsmath}
+\usepackage{amsfonts}
 \usepackage[shortlabels]{enumitem}
 \usepackage{cleveref}
 
@@ -59,11 +60,11 @@
 
 
 \section{Introdução}
-    Os problemas de roteirização e otimização de tempo são grandes conhecidos do cotidiano, não é incomum que uma rota tenha diversas possibilidades de percurso. Este tipo de problema é explorado há séculos, sendo um dos seus exemplos mais famosos o Problema do Caixeiro Viajante (PCV), problema este trabalhado desde o século XIX por diversos matemáticos. Com o advento da Pesquisa Operacional (PO), este tipo de situação começou a tomar novas proporções através da utilização de modelos matemáticos e programação de computadores para obter soluções eficientes para diversas variações do PCV.
-    
-    A PO é a área do conhecimento dedicada a estudar e aplicar métodos analíticos para a resolução de problemas nas mais diversas áreas de atuação humana \cite{sobrapo2017}. A partir dela somos capazes de encontrar soluções ótimas com limitações de recursos e restrições, modelando matematicamente a realidade para obter resultados factíveis para a resolução de diversas situações \cite{hillier2013introdução}.
-    
-    Neste trabalho exploramos Problema do Caixeiro Viajante com tempo limite de chegada utilizando uma abordagem desenvolvida em aula que será descrita em detalhes na próxima sessão.
+Os problemas de roteirização e otimização de tempo são grandes conhecidos do cotidiano, não é incomum que uma rota tenha diversas possibilidades de percurso. Este tipo de problema é explorado há séculos, sendo um dos seus exemplos mais famosos o Problema do Caixeiro Viajante (PCV), problema este trabalhado desde o século XIX por diversos matemáticos. Com o advento da Pesquisa Operacional (PO), este tipo de situação começou a tomar novas proporções através da utilização de modelos matemáticos e programação de computadores para obter soluções eficientes para diversas variações do PCV.
+
+A PO é a área do conhecimento dedicada a estudar e aplicar métodos analíticos para a resolução de problemas nas mais diversas áreas de atuação humana \cite{sobrapo2017}. A partir dela somos capazes de encontrar soluções ótimas com limitações de recursos e restrições, modelando matematicamente a realidade para obter resultados factíveis para a resolução de diversas situações \cite{hillier2013introdução}.
+
+Neste trabalho exploramos Problema do Caixeiro Viajante com tempo limite de chegada utilizando uma abordagem desenvolvida em aula que será descrita em detalhes na próxima sessão.
 
 
 
@@ -71,7 +72,7 @@
 
 O problema do caixeiro viajante é um clássico da otimização combinatória, que propõe que um determinado caixeiro deverá visitar {\it n} cidades diferentes, iniciando e encerrando sua viagem na primeira cidade. A ordem das cidades visitadas é irrelevante e de cada uma delas pode-se ir diretamente a qualquer outra \cite{porto-da-silveira_2000}. Trata-se de um problema de complexidade $R(n) = (n -1)!$ e pertence a classe dos NP-completos. Até o presente momento este é um problema aberto da matemática, sem resolução polinomial descoberta.
 
-Tendo em vista essas informações, existem também variações desta proposição e a partir de uma desssas desenvolvemos o seguinte trabalho. Dado o enunciado temos:
+Tendo em vista essas informações, existem também variações do PCV e a partir de uma destas desenvolvemos o seguinte trabalho. Dado o enunciado temos:
 
 
 \begin{enumerate}[(a)]
@@ -81,94 +82,102 @@ Tendo em vista essas informações, existem também variações desta proposiç�
   \item A distância euclidiana (em linha reta) entre as localidades é contabilizada como tempo de percurso.
 \end{enumerate}
 
-O modelo deverá minimizar o atraso total das visitas, eliminando sub-rotas e garantindo que as restrições sejam devidamente atendidas.  
-
-    
-    
+O modelo deverá minimizar o atraso total das visitas, eliminando sub-rotas e garantindo que as restrições sejam devidamente atendidas.
 
 
 \section{Modelagem Matemática}
 
-    De acordo com a configuração do problema tratado neste trabalho na sessão acima, o objetivo do modelo é a minimização do tempo de atraso da rota. 
-    
-    A partir disso primeiramente foi definido um conjunto de valores N para todos os nós $n$, sendo que o primeiro e o ultimo valor são vistos como depósito.
-    
-    \begin{align}
-        \mathbb{N} = \{0, ..., n+1\}
-    \end{align}
-    
-    A função objetiva abaixo mostra minimização do somatório no conjunto N dos tempo de atraso, representado pela variável $w_j$
-    \begin{align}
-        min        \sum_{_j\in N\backslash \{0,n+1\}} w_j \label{eq1}
-    \end{align}
-    
-    A função abaixo mostra o somatório entre todos os nós $x_{ij}$ com excessão do primeiro nó (considerado como depósito), que tem a função de garantir que cada nó receba apenas uma chegada por vez.
-    \begin{align}
-      & \sum_{i\in N\backslash \{n+1\}} x_{ij} = 1                         &    & j\in N\backslash \{0\}
-    \end{align}
-    
-    A função abaixo garante que cada nó receba um ponto de saída com excessão do último nó (considerado como depósito).
-    \begin{align}
-      & \sum_{j\in N\backslash \{0\}} x_{ij} = 1                           &               & i\in N\backslash \{n+1\}  
-    \end{align}
-    
-    A restrição abaixo garante que não ocorram subrotas. Caso o nó anterior seja utilizado $x_{ij}$ valerá 1, então $\varphi_j$ que representa o tempo de serviço de um nó deverá ser maior que $\varphi_i$ mais a soma do tempo de serviço $S_i$ e a distância euclidiana $t_{ij}$.
-    \begin{align}
-      & \varphi_j \geq \varphi_i + (S_i + t_{ij})x_{ij} - M_{ij}(1-x_{ij}) & \label{eq3}    & i\in N\backslash \{n+1\}   &  & j\in N\backslash \{0\} 
-    \end{align}
-    
-    A restrição abaixo garante que $w_j$ seja maior que o tempo gasto para a chegada de um nó mais o seu tempo de serviço menos o seu tempo máximo de chegada. Nesta restrição não estão inclusos os nós $0$ e $n+1$ já que estes são considerados depositos.
-    \begin{align}
-      & w_j \geq \varphi_j - D_j                                           & \label{eq4}    & j\in N\backslash \{0,n+1\}    
-    \end{align}
-    
-      A restrição abaixo garante e não-negatividade de $w_j$
-    \begin{align}
-      & w_j \geq 0                                                         & \label{eq5}    & j\in N\backslash \{0,n+1\}        
-    \end{align}
-    
-    A restrição abaixo declara o domínio de valores possíveis para a variável $x_{ij}$
-    \begin{align}
-      & x_{ij} \in \{0,1\}                                                 & \label{eq6}    & i\in N\backslash \{n+1\}   &  & j\in N\backslash \{0\}       
-    \end{align}
-    
-    \begin{align}
-      \min       & \sum_{_j\in N\backslash \{0,n+1\}} w_j                             &                                                           \\
-      \hbox{s.a} & \sum_{j\in N\backslash \{0\}} x_{ij} = 1                           &               & i\in N\backslash \{n+1\}                               \\
-                 & \sum_{i\in N\backslash \{n+1\}} x_{ij} = 1                         &    & j\in N\backslash \{0\}                                 \\
-                 & \varphi_j \geq \varphi_i + (S_i + t_{ij})x_{ij} - M_{ij}(1-x_{ij}) & \label{eq3}    & i\in N\backslash \{n+1\}   &  & j\in N\backslash \{0\} \\
-                 & w_j \geq \varphi_j - D_j                                           & \label{eq4}    & j\in N\backslash \{0,n+1\}                             \\
-                 & w_j \geq 0                                                         & \label{eq5}    & j\in N\backslash \{0,n+1\}                             \\
-                 & x_{ij} \in \{0,1\}                                                 & \label{eq6}    & i\in N\backslash \{n+1\}   &  & j\in N\backslash \{0\}
-    \end{align}
-    
-    
-    Variáveis:
-    
-    $w_j$ Tempo de atraso para cada rota $j$.
-    
-    $x_{ij}$ Variáve "liga e desliga" para verificar se um nó (cidade) foi utilizado ou não na rota.
-    
-    $N$ Conjunto de nós a ser visitado.
-    
-    $\varphi$ Acumulo de tempo de serviço para nó.
-    
-    $D_j$ Tempo máximo de chegada para um nó $j$.
-    
-    $t_{ij}$ Distância euclidiana de um nó.
-    
-    $S_i$ Tempo de serviço em um nó.
-    
-    $M_{ij}$ Valor suficientemente grande composto pela soma de todos os deadlines mais 10.
-    
-    A função objetiva presente na linha \eqref{eq1} se trata da minimização do somatório dos tempos de atraso ocorrentes na rota.
+\subsection{Conjunto de Nós}
+
+Representativamente podemos definir um conjunto de valores N para todos os nós $n$, sendo que o primeiro e o ultimo valor representam o ponto inicial que deverá ser o último nó a ser visitado ao fim do percurso.
+
+\begin{align}
+  N = \{0, ..., n+1\}
+\end{align}
+
+\subsection{Função Objtivo:}
+
+A função objetivo abaixo mostra a minimização do somatório do atraso nos nós, representado pela variável $w_j$
+\begin{align}
+  min        \sum_{_j\in N\backslash \{0,n+1\}} w_j \label{eq1}
+\end{align}
+
+\subsection{Restrições:}
+
+A restrição (3) mostra o somatório entre todos os nós $x_{ij}$ com excessão do primeiro nó (considerado como depósito), que tem a função de garantir que cada nó receba apenas uma chegada por vez.
+\begin{align}
+   & \sum_{i\in N\backslash \{n+1\}} x_{ij} = 1 &  & j\in N\backslash \{0\}
+\end{align}
+
+A expressão (4) garante que cada nó receba um ponto de saída com excessão do último nó (considerado como depósito).
+\begin{align}
+   & \sum_{j\in N\backslash \{0\}} x_{ij} = 1 &  & i\in N\backslash \{n+1\}
+\end{align}
+
+Abaixo podemos ver a restrição (5) que garante que não ocorram subrotas. $\varphi$ é o início do tempo de serviço de determinado nó, neste caso $\varphi_j$ precisa ser maior que o tempo de serviço mais o trajeto de um nó anterior que é representado por $\varphi_i$ mais o seu tempo de serviço $S_i$ e seu trajeto $t_{ij}$.
+Caso o nó $x_{ij}$ não seja utilizado, a variável $M_{ij}$ é acionada e garante que $\varphi_j$ seja maior que uma expressão negativa.
+
+\begin{align}
+   & \varphi_j \geq \varphi_i + (S_i + t_{ij})x_{ij} - M_{ij}(1-x_{ij}) & \label{eq3} & i\in N\backslash \{n+1\} &  & j\in N\backslash \{0\}
+\end{align}
+
+A restrição (6) desmostra a garantia que $w_j$ seja maior que o tempo gasto para a chegada de um nó mais o seu tempo de serviço menos o seu tempo máximo de chegada. Nesta restrição não estão inclusos os nós $0$ e $n+1$ já que estes são considerados depósitos.
+\begin{align}
+   & w_j \geq \varphi_j - D_j & \label{eq4} & j\in N\backslash \{0,n+1\}
+\end{align}
+
+A restrição (7) abaixo garante e não-negatividade de $w_j$
+\begin{align}
+   & w_j \geq 0 & \label{eq5} & j\in N\backslash \{0,n+1\}
+\end{align}
+
+Por fim, a restrição (8) declara o domínio de valores possíveis para a variável $x_{ij}$.
+\begin{align}
+   & x_{ij} \in \{0,1\} & \label{eq6} & i\in N\backslash \{n+1\} &  & j\in N\backslash \{0\}
+\end{align}
+
+
+\subsection{Variáveis:}
+
+$w_j$ Tempo de atraso para cada rota $j$.
+
+$x_{ij}$ Variáve "liga e desliga" para verificar se um nó (cidade) foi utilizado ou não na rota.
+
+$N$ Conjunto de nós a ser visitado.
+
+$\varphi$ Inicio de serviço de um nó.
+
+$D_j$ Tempo máximo de chegada para um nó $j$.
+
+$t_{ij}$ Distância euclidiana de um nó.
+
+$S_i$ Tempo de serviço em um nó.
+
+$M_{ij}$ Valor suficientemente grande composto pela soma de todos os deadlines mais 10.
+
+A função objetiva presente na linha \eqref{eq1} se trata da minimização do somatório dos tempos de atraso ocorrentes na rota.
 
 \section{Resultados Computacionais}
-    O modelo \eqref{eq1}-\eqref{eq6} foi codificado na linguagem de programação Python em conjunto com a biblioteca PyMathProg, que possibilita a elaboração e solução de problemas de programação matemática, e com a biblioteca MatplotLib que permite a criação de visualizações estáticas, animadas e interativas.
-    A biblioteca PyMathProg faz uso do solver GLPK (GNU Linear Programming Kit) que tem a função de resolver problemas de programação linear em larga escala (LP), programação inteira mista (MIP) e outros problemas relacionados. (https://www.gnu.org/software/glpk/).
-    
-    
-    
+O modelo \eqref{eq1}-\eqref{eq6} foi codificado na linguagem de programação Python em conjunto com a biblioteca PyMathProg, que possibilita a elaboração e solução de problemas de programação matemática, e com a biblioteca MatplotLib que permite a criação de visualizações estáticas, animadas e interativas.(https://matplotlib.org/)
+A biblioteca PyMathProg faz uso do solver GLPK (GNU Linear Programming Kit) que tem a função de resolver problemas de programação linear em larga escala (LP), programação inteira mista (MIP) e outros problemas relacionados. (https://www.gnu.org/software/glpk/).
+
+Para realizar os testes com o modelo matemático elaborado, utilizamos 4 instâncias com dados fictícios, incluindo as coordenadas (x e y), o tempo de serviço e o deadline (tempo máximo de chegada) para cada nó.
+Cada instância tem, respectivamente, 10, 15, 20 e 25 nós.
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{Resultados computacionais.}
+    \label{tab:table1}
+    \begin{tabular}{l|c|r} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3} \\
+      $\alpha$         & $\beta$          & $\gamma$         \\
+      \hline
+      1                & 1110.1           & a                \\
+      2                & 10.1             & b                \\
+      3                & 23.113231        & c                \\
+    \end{tabular}
+  \end{center}
+\end{table}
 
 %valor ótimo
 %tempo de processamento
