@@ -18,13 +18,12 @@
 
 \usepackage{graphicx,url}
 
-\usepackage[brazil]{babel}   
-\usepackage[utf8]{inputenc}  
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage[shortlabels]{enumitem}
 \usepackage{cleveref}
-
 
 %Inclui () nas citações
 \usepackage{cite}
@@ -32,17 +31,11 @@
 \renewcommand\citeright{)}
 \renewcommand{\email}[1]{\\\mbox{}\\[-6pt]\footnotesize\ttfamily\begin{tabular}{@{} c @{}}#1\end{tabular}}
 
-
-
-
-
-     
 \sloppy
 
 \title{Caixeiro viajante com janelas de tempo aplicado\\ para a minimização de atraso de chegada em N localidades}
 
 \author{Breno C. Zukowski\inst{1}, Henrique Ribeiro dos Santos\inst{1}, Jean Luca dos Santos Silva\inst{1}, \\ Paola Paulina D. J. S. Capita\inst{1}}
-
 
 \address{Faculdade de Tecnologia de Ribeirão Preto - (FATEC)\\
   Ribeirão Preto, SP -- Brasil
@@ -58,123 +51,194 @@
   O problema do caixeiro viajante é um clássico da literatura matemática, onde um vendedor deve visitar um conjunto de N cidades uma única vez e retornar ao seu ponto de origem, através de uma rota que minimiza a distância percorrida. Este trabalho propõe uma solução via modelo de programação matemática, para uma variante do problema original que conta com tempos limite para chegada a cada cidade, em que atrasos são permitidos e têm-se como objetivo minimizar o atraso geral da rota. Com a utilização da biblioteca PyMathProg atingimos resultados interessantes, oferecendo rotas plausíveis para os pontos oferecidos.
 \end{resumo}
 
-
 \section{Introdução}
-Os problemas de roteirização e otimização de tempo são grandes conhecidos do cotidiano, não é incomum que uma rota tenha diversas possibilidades de percurso. Este tipo de problema é explorado há séculos, sendo um dos seus exemplos mais famosos o Problema do Caixeiro Viajante (PCV), problema este trabalhado desde o século XIX por diversos matemáticos. Com o advento da Pesquisa Operacional (PO), este tipo de situação começou a tomar novas proporções através da utilização de modelos matemáticos e programação de computadores para obter soluções eficientes para diversas variações do PCV.
+Os problemas de roteirização e otimização de tempo são grandes conhecidos do
+cotidiano, não é incomum que uma rota tenha diversas possibilidades de
+percurso. Este tipo de problema é explorado há séculos, sendo um dos seus
+exemplos mais famosos o Problema do Caixeiro Viajante (PCV), problema este
+trabalhado desde o século XIX por diversos matemáticos. Com o advento da
+Pesquisa Operacional (PO), este tipo de situação começou a tomar novas
+proporções através da utilização de modelos matemáticos e programação de
+computadores para obter soluções eficientes para diversas variações do PCV.
 
-A PO é a área do conhecimento dedicada a estudar e aplicar métodos analíticos para a resolução de problemas nas mais diversas áreas de atuação humana \cite{sobrapo2017}. A partir dela somos capazes de encontrar soluções ótimas com limitações de recursos e restrições, modelando matematicamente a realidade para obter resultados factíveis para a resolução de diversas situações \cite{hillier2013introdução}.
+A PO é a área do conhecimento dedicada a estudar e aplicar métodos analíticos
+para a resolução de problemas nas mais diversas áreas de atuação humana
+\cite{sobrapo2017}. A partir dela somos capazes de encontrar soluções ótimas
+com limitações de recursos e restrições, modelando matematicamente a realidade
+para obter resultados factíveis para a resolução de diversas situações
+\cite{hillier2013introdução}.
 
-Neste trabalho exploramos Problema do Caixeiro Viajante com tempo limite de chegada utilizando uma abordagem desenvolvida em aula que será descrita em detalhes na próxima sessão.
-
-
+Neste trabalho exploramos Problema do Caixeiro Viajante com tempo limite de
+chegada utilizando uma abordagem desenvolvida em aula que será descrita em
+detalhes na próxima sessão.
 
 \section{Descrição do problema}
 
-O problema do caixeiro viajante é um clássico da otimização combinatória, que propõe que um determinado caixeiro deverá visitar {\it n} cidades diferentes, iniciando e encerrando sua viagem na primeira cidade. A ordem das cidades visitadas é irrelevante e de cada uma delas pode-se ir diretamente a qualquer outra \cite{porto-da-silveira_2000}. Trata-se de um problema de complexidade $R(n) = (n -1)!$ e pertence a classe dos NP-completos. Até o presente momento este é um problema aberto da matemática, sem resolução polinomial descoberta.
+O problema do caixeiro viajante é um clássico da otimização combinatória, que
+propõe que um determinado caixeiro deverá visitar {\it n} cidades diferentes,
+iniciando e encerrando sua viagem na primeira cidade. A ordem das cidades
+visitadas é irrelevante e de cada uma delas pode-se ir diretamente a qualquer
+outra \cite{porto-da-silveira_2000}. Trata-se de um problema de complexidade
+$R(n) = (n -1)!$ e pertence a classe dos NP-completos. Até o presente momento
+este é um problema aberto da matemática, sem resolução polinomial descoberta.
 
-Tendo em vista essas informações, existem também variações do PCV e a partir de uma destas desenvolvemos o seguinte trabalho. Dado o enunciado temos:
-
+Tendo em vista essas informações, existem também variações do PCV e a partir de
+uma destas desenvolvemos o seguinte trabalho. Dado o enunciado temos:
 
 \begin{enumerate}[(a)]
-  \item Um veículo que deve partir do ponto inicial, visitará {\it n} localidades e retornará ao ponto de partida após as visitas.
+  \item Um veículo que deve partir do ponto inicial, visitará {\it n} localidades e
+        retornará ao ponto de partida após as visitas.
   \item Cada localidade a ser visitada tem um prazo limite para receber a visita.
-  \item Atrasos são permitidos, porém uma multa que aumenta com o tempo de atraso é imposta.
-  \item A distância euclidiana (em linha reta) entre as localidades é contabilizada como tempo de percurso.
+  \item Atrasos são permitidos, porém uma multa que aumenta com o tempo de atraso é
+        imposta.
+  \item A distância euclidiana (em linha reta) entre as localidades é contabilizada
+        como tempo de percurso.
 \end{enumerate}
 
-O modelo deverá minimizar o atraso total das visitas, eliminando sub-rotas e garantindo que as restrições sejam devidamente atendidas.
-
+O modelo deverá minimizar o atraso total das visitas, eliminando sub-rotas e
+garantindo que as restrições sejam devidamente atendidas.
 
 \section{Modelagem Matemática}
 
 \subsection{Conjunto de Nós}
 
-Representativamente podemos definir um conjunto de valores N para todos os nós $n$, sendo que o primeiro e o ultimo valor representam o ponto inicial que deverá ser o último nó a ser visitado ao fim do percurso.
+Representativamente podemos definir um conjunto de valores N como visto em
+\eqref{nodes} para todos os nós $n$, sendo que 0 e $n+1$ representam o ponto de
+origem que também deverá ser o último nó a ser visitado ao fim do percurso.
 
 \begin{align}
-  N = \{0, ..., n+1\}
+  N = \{0, ..., n+1\} \label{nodes}
 \end{align}
 
-\subsection{Função Objtivo:}
+Concomitantemente temos o produto cartesiano destes nós dado por:
 
-A função objetivo abaixo mostra a minimização do somatório do atraso nos nós, representado pela variável $w_j$
+\begin{align} \label{cartesian_product}
+   & A = N * N
+\end{align}
+
+\subsection{Função Objetivo:}
+
+A função objetivo abaixo mostra a minimização do somatório do atraso nos nós,
+representado pela variável $w_j$:
+
 \begin{align}
-  min        \sum_{_j\in N\backslash \{0,n+1\}} w_j \label{eq1}
+  min        \sum_{_j\in N\backslash \{0,n+1\}} w_j \label{obj_func}
 \end{align}
 
 \subsection{Restrições:}
 
-A restrição (3) mostra o somatório entre todos os nós $x_{ij}$ com excessão do primeiro nó (considerado como depósito), que tem a função de garantir que cada nó receba apenas uma chegada por vez.
-\begin{align}
-   & \sum_{i\in N\backslash \{n+1\}} x_{ij} = 1 &  & j\in N\backslash \{0\}
-\end{align}
-
-A expressão (4) garante que cada nó receba um ponto de saída com excessão do último nó (considerado como depósito).
-\begin{align}
-   & \sum_{j\in N\backslash \{0\}} x_{ij} = 1 &  & i\in N\backslash \{n+1\}
-\end{align}
-
-Abaixo podemos ver a restrição (5) que garante que não ocorram subrotas. $\varphi$ é o início do tempo de serviço de determinado nó, neste caso $\varphi_j$ precisa ser maior que o tempo de serviço mais o trajeto de um nó anterior que é representado por $\varphi_i$ mais o seu tempo de serviço $S_i$ e seu trajeto $t_{ij}$.
-Caso o nó $x_{ij}$ não seja utilizado, a variável $M_{ij}$ é acionada e garante que $\varphi_j$ seja maior que uma expressão negativa.
+A restrição \eqref{res_x1} mostra o somatório entre todas as variáveis $x_{ij}$
+que necessariamente terá que equivaler a 1, definindo que apenas um arco é
+utilizado nessa roteirização, fixando os pontos de chegada. A expressão
+\eqref{res_x2} tem função similar, por sua vez, restringindo os pontos de
+saída. Estas restrições garantem que os nós tenham pontos de chegada e partida
+únicos.
 
 \begin{align}
-   & \varphi_j \geq \varphi_i + (S_i + t_{ij})x_{ij} - M_{ij}(1-x_{ij}) & \label{eq3} & i\in N\backslash \{n+1\} &  & j\in N\backslash \{0\}
+   & \sum_{i\in N\backslash \{n+1\}} x_{ij} = 1 &  & j\in N\backslash \{0\} \label{res_x1}
 \end{align}
 
-A restrição (6) desmostra a garantia que $w_j$ seja maior que o tempo gasto para a chegada de um nó mais o seu tempo de serviço menos o seu tempo máximo de chegada. Nesta restrição não estão inclusos os nós $0$ e $n+1$ já que estes são considerados depósitos.
 \begin{align}
-   & w_j \geq \varphi_j - D_j & \label{eq4} & j\in N\backslash \{0,n+1\}
+   & \sum_{j\in N\backslash \{0\}} x_{ij} = 1 &  & i\in N\backslash \{n+1\} \label{res_x2}
 \end{align}
 
-A restrição (7) abaixo garante e não-negatividade de $w_j$
+Abaixo podemos ver a restrição \eqref{sub-routes} que garante que não ocorram
+sub-rotas. A variável $\varphi$ representa o instante de início do serviço em
+um nó $i \in N$. Caso o nó $x_{ij}$ não seja utilizado, a constante $M_{ij}$
+que é suficientemente grande, garante que toda a expressão assuma um valor
+negativo, portanto $\varphi_j$ poderá assumir qualquer valor.
+
 \begin{align}
-   & w_j \geq 0 & \label{eq5} & j\in N\backslash \{0,n+1\}
+   & \varphi_j \geq \varphi_i + (S_i + t_{ij})x_{ij} - M_{ij}(1-x_{ij}) &  & i\in N\backslash \{n+1\} &  & j\in N\backslash \{0\} \label{sub-routes}
 \end{align}
 
-Por fim, a restrição (8) declara o domínio de valores possíveis para a variável $x_{ij}$.
+A restrição \eqref{delay} garante que o acúmulo de atraso $w_j$ seja maior que
+o tempo de chegada de um nó $i \in N$ subtraído da {\it deadline}. Nesta
+restrição não estão inclusos os nós $0$ e $n+1$ já que estes são considerados
+depósitos e não possuem {\it deadline}.
+
 \begin{align}
-   & x_{ij} \in \{0,1\} & \label{eq6} & i\in N\backslash \{n+1\} &  & j\in N\backslash \{0\}
+   & w_j \geq \varphi_j - D_j & \label{delay} & j\in N\backslash \{0,n+1\}
 \end{align}
 
+A restrição \eqref{res_wj} abaixo garante e não-negatividade de $w_j$
+\begin{align}
+   & w_j \geq 0 &  & j\in N\backslash \{0,n+1\} \label{res_wj}
+\end{align}
+
+Por fim, a restrição \eqref{variables} declara o domínio de valores possíveis
+para a variável $x_{ij}$.
+\begin{align}
+   & x_{ij} \in \{0,1\} &  & i\in N\backslash \{n+1\} &  & j\in N\backslash \{0\}  \label{variables}
+\end{align}
 
 \subsection{Variáveis:}
 
-$w_j$ Tempo de atraso para cada rota $j$.
+\hspace{1.27cm}$w_j$ Tempo de atraso para cada nó de chegada $j$.
 
-$x_{ij}$ Variáve "liga e desliga" para verificar se um nó (cidade) foi utilizado ou não na rota.
+\hspace{1.27cm} $j\in N\backslash \{0,n+1\}$
 
-$N$ Conjunto de nós a ser visitado.
+$x_{ij}$ Variável binária que define se o arco é utilizado na rota.
 
-$\varphi$ Inicio de serviço de um nó.
+\hspace{1.27cm} $i\in N\backslash \{n+1\}$ \hspace{1.27cm}  $j\in N\backslash \{0,n+1\}$
 
-$D_j$ Tempo máximo de chegada para um nó $j$.
+$\varphi$ Variável de decisão contínua que representa o instante de inicio do serviço de um nó $i\in N$.
 
-$t_{ij}$ Distância euclidiana de um nó.
+\hspace{1.27cm} $(i,j) \in A$
+
+$D_j$ {\it Deadline} de chegada para um nó $j$.
+
+\hspace{1.27cm} $j\in N\backslash \{0,n+1\}$
+
+$t_{ij}$ Distância euclidiana entre um nó e outro.
+
+\hspace{1.27cm} $i\in N\backslash \{n+1\}$ \hspace{1.27cm}  $j\in N\backslash \{0,n+1\}$
 
 $S_i$ Tempo de serviço em um nó.
 
-$M_{ij}$ Valor suficientemente grande composto pela soma de todos os deadlines mais 10.
+\hspace{1.27cm} $i\in N\backslash \{n+1\}$
 
-A função objetiva presente na linha \eqref{eq1} se trata da minimização do somatório dos tempos de atraso ocorrentes na rota.
+$M$ Valor suficientemente grande.
 
 \section{Resultados Computacionais}
-O modelo \eqref{eq1}-\eqref{eq6} foi codificado na linguagem de programação Python em conjunto com a biblioteca PyMathProg, que possibilita a elaboração e solução de problemas de programação matemática, e com a biblioteca MatplotLib que permite a criação de visualizações estáticas, animadas e interativas.(https://matplotlib.org/)
-A biblioteca PyMathProg faz uso do solver GLPK (GNU Linear Programming Kit) que tem a função de resolver problemas de programação linear em larga escala (LP), programação inteira mista (MIP) e outros problemas relacionados. (https://www.gnu.org/software/glpk/).
+O modelo \eqref{obj_func}-\eqref{variables} foi codificado na linguagem de
+programação Python em conjunto com a biblioteca PyMathProg, que possibilita a
+elaboração e solução de problemas de programação matemática, e com a biblioteca
+MatplotLib que permite a criação de visualizações estáticas, animadas e
+interativas.(https://matplotlib.org/) A biblioteca PyMathProg faz uso do solver
+GLPK (GNU Linear Programming Kit) que tem a função de resolver problemas de
+programação linear em larga escala (LP), programação inteira mista (MIP) e
+outros problemas relacionados. (https://www.gnu.org/software/glpk/).
 
-Para realizar os testes com o modelo matemático elaborado, utilizamos 4 instâncias com dados fictícios, incluindo as coordenadas (x e y), o tempo de serviço e o deadline (tempo máximo de chegada) para cada nó.
-Cada instância tem, respectivamente, 10, 15, 20 e 25 nós.
+Para realizar os testes com o modelo matemático elaborado, utilizamos 4
+instâncias com dados fictícios, incluindo as coordenadas (x e y), o tempo de
+serviço e o deadline (tempo máximo de chegada) para cada nó. Cada instância
+tem, respectivamente, 10, 15, 20 e 25 nós.
+
+% Nome da instancia, tempo decorrido, valor ótimo(tempo de atraso), gap (porcentagem), limitante inferior e superior
 
 \begin{table}[h!]
   \begin{center}
     \caption{Resultados computacionais.}
     \label{tab:table1}
-    \begin{tabular}{l|c|r} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
-      \textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3} \\
-      $\alpha$         & $\beta$          & $\gamma$         \\
+    \begin{tabular}{l|c|c|c|c|c}
       \hline
-      1                & 1110.1           & a                \\
-      2                & 10.1             & b                \\
-      3                & 23.113231        & c                \\
+      \textbf{Instância} & \textbf{Tempo decorrido} & \textbf{Valor ótimo} & \textbf{Gap} & \textbf{Lim. inferior} & \textbf{Lim. superior} \\
+
+      \hline
+      inst\_10           & 0                        & 0                    & 0            & 0                      & 0                      \\
+
+      \hline
+
+      inst\_15           & 0                        & 0                    & 0            & 0                      & 0                      \\
+
+      \hline
+
+      inst\_20           & 0                        & 0                    & 0            & 0                      & 0                      \\
+
+      \hline
+
+      inst\_25           & 0                        & 0                    & 0            & 0                      & 0                      \\ \hline
     \end{tabular}
   \end{center}
 \end{table}
@@ -184,107 +248,6 @@ Cada instância tem, respectivamente, 10, 15, 20 e 25 nós.
 %gap
 
 \section{Considerações Finais}
-
-% Banco de dados
-% Modelo de R-CNN
-% Implementação
-
-
-
-% The first page must display the paper title, the name and address of the
-% authors, the abstract in English and ``resumo'' in Portuguese (``resumos'' are
-% required only for papers written in Portuguese). The title must be centered
-% over the whole page, in 16 point boldface font and with 12 points of space
-% before itself. Author names must be centered in 12 point font, bold, all of
-% them disposed in the same line, separated by commas and with 12 points of
-% space after the title. Addresses must be centered in 12 point font, also with
-% 12 points of space after the authors' names. E-mail addresses should be
-% written using font Courier New, 10 point nominal size, with 6 points of space
-% before and 6 points of space after.
-
-% The abstract and ``resumo'' (if is the case) must be in 12 point Times font,
-% indented 0.8cm on both sides. The word \textbf{Abstract} and \textbf{Resumo},
-% should be written in boldface and must precede the text.
-
-% \section{CD-ROMs and Printed Proceedings}
-
-% In some conferences, the papers are published on CD-ROM while only the
-% abstract is published in the printed Proceedings. In this case, authors are
-% invited to prepare two final versions of the paper. One, complete, to be
-% published on the CD and the other, containing only the first page, with
-% abstract and ``resumo'' (for papers in Portuguese).
-
-% \section{Sections and Paragraphs}
-
-% Section titles must be in boldface, 13pt, flush left. There should be an extra
-% 12 pt of space before each title. Section numbering is optional. The first
-% paragraph of each section should not be indented, while the first lines of
-% subsequent paragraphs should be indented by 1.27 cm.
-
-% \subsection{Subsections}
-
-% The subsection titles must be in boldface, 12pt, flush left.
-
-% \section{Figures and Captions}\label{sec:figs}
-
-
-% Figure and table captions should be centered if less than one line
-% (Figure~\ref{fig:exampleFig1}), otherwise justified and indented by 0.8cm on
-% both margins, as shown in Figure~\ref{fig:exampleFig2}. The caption font must
-% be Helvetica, 10 point, boldface, with 6 points of space before and after each
-% caption.
-
-% \begin{figure}[ht]
-% \centering
-% \includegraphics[width=.5\textwidth]{fig1.jpg}
-% \caption{A typical figure}
-% \label{fig:exampleFig1}
-% \end{figure}
-
-% \begin{figure}[ht]
-% \centering
-% \includegraphics[width=.3\textwidth]{fig2.jpg}
-% \caption{This figure is an example of a figure caption taking more than one
-%   line and justified considering margins mentioned in Section~\ref{sec:figs}.}
-% \label{fig:exampleFig2}
-% \end{figure}
-
-% In tables, try to avoid the use of colored or shaded backgrounds, and avoid
-% thick, doubled, or unnecessary framing lines. When reporting empirical data,
-% do not use more decimal digits than warranted by their precision and
-% reproducibility. Table caption must be placed before the table (see Table 1)
-% and the font used must also be Helvetica, 10 point, boldface, with 6 points of
-% space before and after each caption.
-
-% \begin{table}[ht]
-% \centering
-% \caption{Variables to be considered on the evaluation of interaction
-%   techniques}
-% \label{tab:exTable1}
-% \includegraphics[width=.7\textwidth]{table.jpg}
-% \end{table}
-
-% \section{Images}
-
-% All images and illustrations should be in black-and-white, or gray tones,
-% excepting for the papers that will be electronically available (on CD-ROMs,
-% internet, etc.). The image resolution on paper should be about 600 dpi for
-% black-and-white images, and 150-300 dpi for grayscale images.  Do not include
-% images with excessive resolution, as they may take hours to print, without any
-% visible difference in the result. 
-
-% \section{References}
-
-% Bibliographic references must be unambiguous and uniform.  We recommend giving
-% the author names references in brackets, e.g. \cite{knuth:84},
-% \cite{boulic:91}, and \cite{smith:99}.
-
-% The references must be listed using 12 point font size, with 6 points of space
-% before each reference. The first line of each reference should not be
-% indented, while the subsequent should be indented by 0.5 cm.
-
-% \bibliographystyle{sbc}
-% \bibliography{sbc-template}
 
 \bibliographystyle{abnt}
 \bibliography{sbc-template}
