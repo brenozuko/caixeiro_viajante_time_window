@@ -1,0 +1,74 @@
+GLPK Simplex Optimizer 5.0
+107 rows, 120 columns, 389 non-zeros
+      0: obj =   0.000000000e+00 inf =   1.800e+01 (18)
+     24: obj =   0.000000000e+00 inf =   1.110e-16 (0)
+OPTIMAL LP SOLUTION FOUND
+GLPK Integer Optimizer 5.0
+107 rows, 120 columns, 389 non-zeros
+100 integer variables, all of which are binary
+Integer optimization begins...
+Long-step dual simplex will be used
+Gomory's cuts enabled
++    24: mip =     not found yet >=              -inf        (1; 0)
+Cuts on level 9: gmi = 2;
++   153: >>>>>   1.102982327e+03 >=   0.000000000e+00 100.0% (15; 1)
+Cuts on level 13: gmi = 3;
++   317: >>>>>   7.247673847e+02 >=   0.000000000e+00 100.0% (30; 5)
+Cuts on level 10: gmi = 3;
++   358: >>>>>   4.691135069e+02 >=   0.000000000e+00 100.0% (35; 8)
+Cuts on level 13: gmi = 3;
++  1221: >>>>>   4.312425009e+02 >=   0.000000000e+00 100.0% (124; 42)
+Cuts on level 23: gmi = 1;
++  8493: >>>>>   3.491200768e+02 >=   0.000000000e+00 100.0% (712; 354)
+Cuts on level 24: gmi = 4;
++  8555: >>>>>   3.471966140e+02 >=   0.000000000e+00 100.0% (688; 410)
+Cuts on level 24: gmi = 4;
++  8603: >>>>>   3.406498013e+02 >=   0.000000000e+00 100.0% (690; 415)
+Cuts on level 27: gmi = 8;
++ 10239: >>>>>   3.306981218e+02 >=   0.000000000e+00 100.0% (829; 478)
+Cuts on level 28: gmi = 9;
++ 10257: >>>>>   3.303176083e+02 >=   0.000000000e+00 100.0% (822; 498)
+Cuts on level 19: gmi = 3;
++ 12579: >>>>>   2.523569218e+02 >=   0.000000000e+00 100.0% (983; 621)
+Cuts on level 17: gmi = 6;
++ 46623: >>>>>   2.522511834e+02 >=   3.088527958e+01  87.8% (2525; 3508)
+Cuts on level 20: gmi = 9;
++ 47458: >>>>>   2.065633856e+02 >=   3.088527958e+01  85.0% (2565; 3593)
+Cuts on level 14: gmi = 2;
++ 88403: >>>>>   1.813581348e+02 >=   7.276055798e+01  59.9% (2662; 10889)
+Cuts on level 19: gmi = 6;
++ 89158: >>>>>   1.712044591e+02 >=   7.276055798e+01  57.5% (2283; 11970)
+Cuts on level 18: gmi = 6;
++ 89892: >>>>>   1.675865023e+02 >=   7.276055798e+01  56.6% (2164; 12454)
+Cuts on level 27: gmi = 16;
++ 98730: >>>>>   1.477594474e+02 >=   1.477594474e+02   0.0% (504; 19420)
++ 98730: mip =   1.477594474e+02 >=     tree is empty   0.0% (0; 22381)
+INTEGER OPTIMAL SOLUTION FOUND
+Writing problem data to '../dados/results/inst_10/inst_10.mps'...
+Warning: problem has 20 empty column(s)
+542 records were written
+Writing problem data to '../dados/results/inst_10/inst_10.glp'...
+755 lines were written
+Writing problem data to '../dados/results/inst_10/inst_10.clp'...
+341 lines were written
+Writing basic solution to '../dados/results/inst_10/inst_10.sol'...
+Writing interior-point solution to '../dados/results/inst_10/inst_10.ipt'...
+Writing MIP solution to '../dados/results/inst_10/inst_10.mip'...
+glp_print_ranges: basis factorization required
+====================================================================================================
+
+	Tempo de execução: 3.12s
+	Solução ótima (Acumulo de atraso): 147.76
+
+	Percurso dos nós
+	 0   -->   2 | Atraso: 30.89
+	 2   -->   7 | Atraso: 116.87
+	 7   -->   5 | Atraso: 0.00
+	 5   -->   3 | Atraso: 0.00
+	 3   -->   8 | Atraso: 0.00
+	 8   -->   1 | Atraso: 0.00
+	 1   -->   4 | Atraso: 0.00
+	 4   -->   6 | Atraso: 0.00
+	 6   -->   9 | Atraso: 0.00
+
+ ====================================================================================================
