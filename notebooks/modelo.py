@@ -1,11 +1,10 @@
 import pandas as pd
 import numpy as np
 import os
-import pymprog as p
+import pymprog as pm
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from IPython.display import display
-import threading
 import time
 
 DATA_PATH = "../dados/"
@@ -57,7 +56,6 @@ def beauty_print(text, char="="):
 
 
 def model(data, file, time_limit):
-    import pymprog as pm
 
     # Iniciando o modelo
     start_time = time.time()
