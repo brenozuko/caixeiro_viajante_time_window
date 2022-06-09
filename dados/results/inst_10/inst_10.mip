@@ -240,12 +240,12 @@ Objective:  147.7594474 (MINimum)
 
 Integer feasibility conditions:
 
-KKT.PE: max.abs.err = 0.00e+00 on row 0
-        max.rel.err = 0.00e+00 on row 0
+KKT.PE: max.abs.err = 2.19e-11 on row 64
+        max.rel.err = 3.56e-14 on row 93
         High quality
 
-KKT.PB: max.abs.err = 0.00e+00 on row 0
-        max.rel.err = 0.00e+00 on row 0
+KKT.PB: max.abs.err = 4.27e-11 on row 66
+        max.rel.err = 1.52e-14 on row 66
         High quality
 
 End of output
