@@ -8,7 +8,6 @@ from IPython.display import display
 import time
 
 DATA_PATH = "../dados/"
-FILE = "{file}.txt"
 
 
 def get_files(data_path):
