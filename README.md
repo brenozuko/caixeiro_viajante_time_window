@@ -20,6 +20,15 @@ das localidades. Utilize a distância euclidiana (em linha reta) entre as locali
 de percurso entre elas. Formule modelo de otimização que determine a rota que minimize o
 atraso total nas visitas.
 
+## Como navegar neste repositório:
+
+A implementação do modelo se encontra na pasta `notebooks` em sua verão `.py` e `.ipynb`
+
+O artigo desenvolvido em LATEX na pasta `artigo`
+
+Os exports com os resultados obtidos no processamento das instâncias na pasta `dados`
+
+Além de algumas referências utilizadas na pasta `referencias`
 
 
 ## Artigo:
