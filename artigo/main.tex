@@ -1,3 +1,4 @@
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % How to use writeLaTeX: 
 %
@@ -36,16 +37,12 @@
 \renewcommand\citeright{)}
 \renewcommand{\email}[1]{\\\mbox{}\\[-6pt]\footnotesize\ttfamily\begin{tabular}{@{} c @{}}#1\end{tabular}}
 
-
-
-
-
      
 \sloppy
 
 \title{Caixeiro viajante com deadline aplicado\\ para a minimização de atraso de chegada em N localidades}
 
-\author{Breno C. Zukowski\inst{1}, Henrique Ribeiro dos Santos\inst{1}, Jean Luca dos Santos Silva\inst{1}, \\ Paola Paulina D. J. S. Capita\inst{1}}
+\author{Breno C. Zukowski\inst{1}, Henrique R. Santos\inst{1}, Jean L. S. Silva\inst{1}, \\ Paola P. J. S. Capita\inst{1}}
 
 
 \address{Faculdade de Tecnologia de Ribeirão Preto - (FATEC)\\
@@ -69,7 +66,6 @@ Os problemas de roteirização e otimização de tempo são grandes conhecidos d
 A PO é a área do conhecimento dedicada a estudar e aplicar métodos analíticos para a resolução de problemas nas mais diversas áreas de atuação humana \cite{sobrapo2017}. A partir dela somos capazes de encontrar soluções ótimas com limitações de recursos e restrições, modelando matematicamente a realidade para obter resultados factíveis para a resolução de diversas situações \cite{hillier2013introdução}.
 
 Neste trabalho exploramos Problema do Caixeiro Viajante com tempo limite de chegada utilizando uma abordagem desenvolvida em aula que será descrita em detalhes na próxima sessão.
-
 
 
 \section{Descrição do problema}
@@ -115,7 +111,7 @@ $D_j$ {\it Deadline} de chegada para um nó $j$.
 
 \hspace{1.27cm} $j\in N\backslash \{0,n+1\}$
 
-$t_{ij}$ Distância euclidiana entre um nó e outro.
+$t_{ij}$ Tempo de percurso representado pela distância euclidiana entre os nós {\it i} e {\it j}.
 
 \hspace{1.27cm} $i\in N\backslash \{n+1\}$ \hspace{1.27cm}  $j\in N\backslash \{0,n+1\}$
 
@@ -157,10 +153,10 @@ A restrição \eqref{res_x1} mostra o somatório entre todas as variáveis $x_{i
    & \sum_{j\in N\backslash \{0\}} x_{ij} = 1 &  & i\in N\backslash \{n+1\} \label{res_x2}
 \end{align}
 
-Abaixo podemos ver a restrição \eqref{sub-routes} que garante que não ocorram sub-rotas. A variável $\varphi$ representa o instante de início do serviço em um nó $i \in N$. Caso o nó $x_{ij}$ não seja utilizado, a constante $M_{ij}$ que é suficientemente grande, garante que toda a expressão assuma um valor negativo, portanto $\varphi_j$ poderá assumir qualquer valor.
+Abaixo podemos ver a restrição \eqref{sub-routes} que garante que não ocorram sub-rotas. A variável $\varphi$ representa o instante de início do serviço em um nó $i \in N$. Caso o nó $x_{ij}$ não seja utilizado, a constante $M$ que é suficientemente grande, garante que toda a expressão assuma um valor negativo, portanto $\varphi_j$ poderá assumir qualquer valor.
 
 \begin{align}
-   & \varphi_j \geq \varphi_i + (S_i + t_{ij})x_{ij} - M_{ij}(1-x_{ij}) &  & i\in N\backslash \{n+1\} &  & j\in N\backslash \{0\} \label{sub-routes}
+   & \varphi_j \geq \varphi_i + (S_i + t_{ij})x_{ij} - M(1-x_{ij}) &  & i\in N\backslash \{n+1\} &  & j\in N\backslash \{0\} \label{sub-routes}
 \end{align}
 
 A restrição \eqref{delay} garante que o acúmulo de atraso $w_j$ seja maior que o tempo de chegada de um nó $i \in N$ subtraído da {\it deadline}. Nesta restrição não estão inclusos os nós $0$ e $n+1$ já que estes são considerados depósitos e não possuem {\it deadline}.
