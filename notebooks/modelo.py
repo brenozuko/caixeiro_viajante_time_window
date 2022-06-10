@@ -188,13 +188,13 @@ options = {
 
 print("=" * 40)
 for key, value in options.items():
-    print(f'\tOpção: {key}: {value}')
+    print(f'\tOpção {key}: {value}')
 print("=" * 40)
 print()
-user_opt = input("Selecione a opção desejada: ")
+user_opt = input("Selecione a instância a ser executada: ")
 
 while user_opt not in options.keys():
-    user_opt = input("Opção inválida! Selecione a opção desejada: ")
+    user_opt = input("Opção inválida! Selecione a instância a ser executada: ")
 
 file = options.get(user_opt)
 
