@@ -34,8 +34,7 @@ complexidade do PCV e os resultados estão expostos neste artigo.
 
 
 *O artigo resultado deste projeto pode ser encontrado em:*
-
-https://pt.slideshare.net/BrenoZukowski2/caixeiro-viajante-com-deadline-aplicado-para-a-minimizac-ao-de-atraso-de-chegada-em-n-localidades
+https://pt.slideshare.net/BrenoZukowski2/caixeiro-viajante-com-deadline-fatec-rp
 
 ## Autores
 
