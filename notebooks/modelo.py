@@ -8,7 +8,6 @@ from IPython.display import display
 import time
 
 DATA_PATH = "../dados/"
-FILE = "{file}.txt"
 
 
 def get_files(data_path):
@@ -46,13 +45,6 @@ def render_nodes(df):
 
     nodes.append((nodes[0][0], nodes[0][1], nodes[0][2], nodes[0][3]))
     return nodes
-
-
-def beauty_print(text, char="="):
-    text_size = len(text)
-    print(char * text_size)
-    print(text)
-    print(char * text_size)
 
 
 def model(data, file, time_limit):
@@ -196,12 +188,15 @@ options = {
 
 print("=" * 40)
 for key, value in options.items():
-    print(f'\tOpção: {key}: {value}')
+    print(f'\tOpção {key}: {value}')
 print("=" * 40)
 print()
-user_opt = input("Selecione a opção desejada: ")
+user_opt = input("Selecione a instância a ser executada: ")
 
-file = options.get(user_opt, None)
+while user_opt not in options.keys():
+    user_opt = input("Opção inválida! Selecione a instância a ser executada: ")
+
+file = options.get(user_opt)
 
 limit = int(input("Qual o tempo limite de execução? (Em horas): "))
 
