@@ -1,4 +1,4 @@
-# Trabalho P2 de Programação Linear - Fatec Ribeirão Preto
+# P2 de Programação Linear - Fatec Ribeirão Preto
 
 Alunos emvolvidos:
 
@@ -22,7 +22,7 @@ atraso total nas visitas.
 
 
 
-## Artigo
+## Artigo:
 
 **Resumo:**
 
