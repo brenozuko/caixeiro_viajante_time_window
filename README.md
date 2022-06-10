@@ -1,13 +1,5 @@
 # P2 de Programação Linear - Fatec Ribeirão Preto
 
-## Alunos envolvidos
-
-- Breno Zukowski
-- Henrique Ribeiro
-- Jean Silva
-- Paola Capita
-
-
 ## Sobre o trabalho
 
 Neste trabalho modelamos o problema do caixeiro viajante com deadlines, visando minizar o atraso como descrito no enunciado: 
@@ -44,3 +36,10 @@ complexidade do PCV e os resultados estão expostos neste artigo.
 *O artigo resultado deste projeto pode ser encontrado em:*
 
 https://pt.slideshare.net/BrenoZukowski2/caixeiro-viajante-com-deadline-aplicado-para-a-minimizac-ao-de-atraso-de-chegada-em-n-localidades
+
+## Autores
+
+- Breno Zukowski
+- Henrique Ribeiro
+- Jean Silva
+- Paola Capita
