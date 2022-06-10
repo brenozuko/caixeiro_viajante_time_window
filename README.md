@@ -1,6 +1,6 @@
 # P2 de Programação Linear - Fatec Ribeirão Preto
 
-Alunos emvolvidos:
+Alunos envolvidos:
 
 Breno Zukowski
 Henrique Ribeiro
