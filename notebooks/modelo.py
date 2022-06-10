@@ -48,13 +48,6 @@ def render_nodes(df):
     return nodes
 
 
-def beauty_print(text, char="="):
-    text_size = len(text)
-    print(char * text_size)
-    print(text)
-    print(char * text_size)
-
-
 def model(data, file, time_limit):
 
     # Iniciando o modelo
