@@ -193,7 +193,10 @@ print("=" * 40)
 print()
 user_opt = input("Selecione a opção desejada: ")
 
-file = options.get(user_opt, None)
+while user_opt not in options.keys():
+    user_opt = input("Opção inválida! Selecione a opção desejada: ")
+
+file = options.get(user_opt)
 
 limit = int(input("Qual o tempo limite de execução? (Em horas): "))
 
