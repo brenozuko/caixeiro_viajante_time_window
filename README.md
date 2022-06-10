@@ -39,7 +39,7 @@ https://pt.slideshare.net/BrenoZukowski2/caixeiro-viajante-com-deadline-fatec-rp
 
 ## Autores
 
-- Breno Zukowski
-- Henrique Ribeiro
-- Jean Silva
-- Paola Capita
+Breno Zukowski
+Henrique Ribeiro
+Jean Silva
+Paola Capita
