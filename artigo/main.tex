@@ -25,6 +25,8 @@
 \usepackage{amsfonts}
 \usepackage[shortlabels]{enumitem}
 \usepackage{cleveref}
+\usepackage{siunitx}
+
 
 \graphicspath{ {./images/} }
 
@@ -201,16 +203,16 @@ O ambiente de execução possui as seguintes características:
   \begin{center}
     \caption{Resultados computacionais.}
     \label{tab:table1}
-    \begin{tabular}{l|c|c|c|c|c} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
-      \textbf{Instância} & \textbf{Tempo decorrido} & \textbf{Valor ótimo} & \textbf{Gap} & \textbf{Lim. inferior} & \textbf{Lim. superior} \\
+    \begin{tabular}{l|c|c|c|c} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \textbf{Instância} & \textbf{Tempo decorrido (\si{\second})} & \textbf{Gap (\%)} & \textbf{Lim. superior} & \textbf{Lim. inferior} \\
       \hline
-      inst\_10           & 3.12                     & 147.76               & 0            & 1.47                   & 1.47                   \\
+      inst\_10           & $3.12 $                                 & 0                 & $1.47 \times 10^1$     & $1.47 \times 10^1$     \\
       \hline
-      inst\_15           & 7200.10                  & 77.28                & 100          & 7.72                   & 0                      \\
+      inst\_15           & $7200.10 $                              & 100               & $7.72 \times 10^1$     & $0$                    \\
       \hline
-      inst\_20           & 7200.15                  & 329.76               & 100          & 3.29                   & 0                      \\
+      inst\_20           & $7200.15 $                              & 100               & $3.29 \times 10^2$     & $0$                    \\
       \hline
-      inst\_25           & 7200.27                  & 1124.18              & 100          & 1.12                   & 0                      \\
+      inst\_25           & $7200.27 $                              & 100               & $1.12 \times 10^3$     & $0$                    \\
       \hline
     \end{tabular}
   \end{center}
@@ -241,6 +243,8 @@ Após a análise dos resultados entende-se que o algoritmo implementado para a r
 
 É possível que com bibliotecas mais adequadas e {\it hardware} mais potente, nossos resultados fossem melhores. Para o futuro, é interessante que se busque outras alternativas para a resolução do PCV com {\it deadlines}.
 
+
+\clearpage
 
 \bibliographystyle{abnt}
 \bibliography{sbc-template}
