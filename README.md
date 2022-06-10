@@ -22,7 +22,7 @@ atraso total nas visitas.
 
 ## Como navegar neste repositório:
 
-A implementação do modelo se encontra na pasta `notebooks` em sua verão `.py` e `.ipynb`
+A implementação do modelo se encontra na pasta `notebooks` em sua versão `.py` e `.ipynb`
 
 O artigo desenvolvido em LATEX na pasta `artigo`
 
