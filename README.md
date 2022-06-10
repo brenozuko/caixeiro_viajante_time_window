@@ -1,14 +1,14 @@
 # P2 de Programação Linear - Fatec Ribeirão Preto
 
-Alunos envolvidos:
+## Alunos envolvidos
 
-Breno Zukowski
-Henrique Ribeiro
-Jean Silva
-Paola Capita
+- Breno Zukowski
+- Henrique Ribeiro
+- Jean Silva
+- Paola Capita
 
 
-## Sobre o trabalho:
+## Sobre o trabalho
 
 Neste trabalho modelamos o problema do caixeiro viajante com deadlines, visando minizar o atraso como descrito no enunciado: 
 
@@ -20,7 +20,7 @@ das localidades. Utilize a distância euclidiana (em linha reta) entre as locali
 de percurso entre elas. Formule modelo de otimização que determine a rota que minimize o
 atraso total nas visitas.
 
-## Como navegar neste repositório:
+## Como navegar neste repositório
 
 A implementação do modelo se encontra na pasta `notebooks` em sua versão `.py` e `.ipynb`
 
@@ -30,7 +30,7 @@ Os exports com os resultados obtidos no processamento das instâncias na pasta `
 
 Além de algumas referências utilizadas na pasta `referencias`
 
-## Artigo:
+## Artigo
 
 **Resumo:**
 
