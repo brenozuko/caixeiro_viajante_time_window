@@ -178,8 +178,8 @@ Por fim, a restrição \eqref{variables} declara o domínio de valores possívei
 
 
 \section{Resultados Computacionais}
-O modelo \eqref{obj_func}-\eqref{variables} foi codificado na linguagem de programação Python em conjunto com a biblioteca PyMathProg, que possibilita a elaboração e solução de problemas de programação matemática, e com a biblioteca MatplotLib que permite a criação de visualizações estáticas, animadas e interativas.(https://matplotlib.org/)
-A biblioteca PyMathProg faz uso do solver GLPK (GNU Linear Programming Kit) que tem a função de resolver problemas de programação linear em larga escala (LP), programação inteira mista (MIP) e outros problemas relacionados. (https://www.gnu.org/software/glpk/).
+O modelo \eqref{obj_func}-\eqref{variables} foi codificado na linguagem de programação Python em conjunto com a biblioteca PyMathProg, que possibilita a elaboração e solução de problemas de programação matemática, e com a biblioteca MatplotLib que permite a criação de visualizações estáticas, animadas e interativas (https://matplotlib.org/).
+A biblioteca PyMathProg faz uso do solver GLPK (GNU Linear Programming Kit) que tem a função de resolver problemas de programação linear em larga escala (LP), programação inteira mista (MIP) e outros problemas relacionados (https://www.gnu.org/software/glpk/).
 
 Para realizar os testes com o modelo matemático elaborado, utilizamos 4 instâncias com dados fictícios, incluindo as coordenadas (x e y), o tempo de serviço e o deadline (tempo máximo de chegada) para cada nó.
 Cada instância tem, respectivamente, 10, 15, 20 e 25 nós. A partir da instância com 15 nós, o tempo de execução dos modelos foi limitado a 2 horas.
