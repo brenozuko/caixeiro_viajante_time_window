@@ -88,6 +88,42 @@ O modelo deverá minimizar o atraso total das visitas, eliminando sub-rotas e ga
 
 
 \section{Modelagem Matemática}
+Algumas premissas clássicas são mantidas do PCV original (como a eliminação de subrotas), entretanto, visto que o objetivo geral é a diminuição do atraso geral e não a otimização de distância, temos algumas divergências principalmente em relação a definição da função objetivo e algumas restrições. Dito isso, definimos o modelo a seguir.
+
+\subsection{Variáveis}
+
+Utilizam-se três variáveis no modelo, sendo essas:
+
+$w_j$ Tempo de atraso para cada nó de chegada $j$.
+
+\hspace{1.27cm} $j\in N\backslash \{0,n+1\}$
+
+$x_{ij}$ Variável binária que define se o arco é utilizado na rota.
+
+\hspace{1.27cm} $i\in N\backslash \{n+1\}$ \hspace{1.27cm}  $j\in N\backslash \{0,n+1\}$
+
+$\varphi$ Variável de decisão contínua que representa o instante de inicio do serviço de um nó $i\in N$.
+
+
+\subsection{Parâmetros}
+
+Os parâmetros por sua vez são:
+
+$D_j$ {\it Deadline} de chegada para um nó $j$.
+
+\hspace{1.27cm} $j\in N\backslash \{0,n+1\}$
+
+$t_{ij}$ Distância euclidiana entre um nó e outro.
+
+\hspace{1.27cm} $i\in N\backslash \{n+1\}$ \hspace{1.27cm}  $j\in N\backslash \{0,n+1\}$
+
+$S_i$ Tempo de serviço em um nó.
+
+\hspace{1.27cm} $i\in N\backslash \{n+1\}$
+
+$M$ Valor suficientemente grande.
+
+
 
 \subsection{Conjunto de Nós}
 
@@ -97,13 +133,7 @@ Representativamente podemos definir um conjunto de valores N como visto em \eqre
   N = \{0, ..., n+1\} \label{nodes}
 \end{align}
 
-Concomitantemente temos o produto cartesiano destes nós dado por:
-
-\begin{align} \label{cartesian_product}
-   & A = N * N
-\end{align}
-
-\subsection{Função Objetivo:}
+\subsection{Função Objetivo}
 
 A função objetivo abaixo mostra a minimização do somatório do atraso nos nós, representado pela variável $w_j$:
 
@@ -111,7 +141,7 @@ A função objetivo abaixo mostra a minimização do somatório do atraso nos n�
   min        \sum_{_j\in N\backslash \{0,n+1\}} w_j \label{obj_func}
 \end{align}
 
-\subsection{Restrições:}
+\subsection{Restrições}
 
 A restrição \eqref{res_x1} mostra o somatório entre todas as variáveis $x_{ij}$ que necessariamente terá que equivaler a 1, definindo que apenas um arco é utilizado nessa roteirização, fixando os pontos de chegada. A expressão \eqref{res_x2} tem função similar, por sua vez, restringindo os pontos de saída. Estas restrições garantem que os nós tenham pontos de chegada e partida únicos.
 
@@ -146,34 +176,6 @@ Por fim, a restrição \eqref{variables} declara o domínio de valores possívei
    & x_{ij} \in \{0,1\} &  & i\in N\backslash \{n+1\} &  & j\in N\backslash \{0\}  \label{variables}
 \end{align}
 
-
-\subsection{Variáveis:}
-
-\hspace{1.27cm}$w_j$ Tempo de atraso para cada nó de chegada $j$.
-
-\hspace{1.27cm} $j\in N\backslash \{0,n+1\}$
-
-$x_{ij}$ Variável binária que define se o arco é utilizado na rota.
-
-\hspace{1.27cm} $i\in N\backslash \{n+1\}$ \hspace{1.27cm}  $j\in N\backslash \{0,n+1\}$
-
-$\varphi$ Variável de decisão contínua que representa o instante de inicio do serviço de um nó $i\in N$.
-
-\hspace{1.27cm} $(i,j) \in A$
-
-$D_j$ {\it Deadline} de chegada para um nó $j$.
-
-\hspace{1.27cm} $j\in N\backslash \{0,n+1\}$
-
-$t_{ij}$ Distância euclidiana entre um nó e outro.
-
-\hspace{1.27cm} $i\in N\backslash \{n+1\}$ \hspace{1.27cm}  $j\in N\backslash \{0,n+1\}$
-
-$S_i$ Tempo de serviço em um nó.
-
-\hspace{1.27cm} $i\in N\backslash \{n+1\}$
-
-$M$ Valor suficientemente grande.
 
 
 \section{Resultados Computacionais}
